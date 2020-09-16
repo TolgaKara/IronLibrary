@@ -54,8 +54,8 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-	new LocalStrategy((email, password, done) => {
-		User.findOne({ email: email })
+	new LocalStrategy((username, password, done) => {
+		User.findOne({ email: username })
 			.then((found) => {
 				if (found === null) {
 					done(null, false, { message: "Wrong Credentials" });
@@ -150,7 +150,6 @@ app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 /* hbs.registerPartial("./views/dashboard/navbar.hbs"); */
-const middlewares = require("./routes/middlewares");
 
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
@@ -161,8 +160,10 @@ app.use("/", index);
 const auth = require("./routes/auth");
 app.use("/", auth);
 
-
 const dashboard = require("./routes/dashboard");
 app.use("/", dashboard);
+
+const books = require("./routes/books");
+app.use("/", books);
 
 module.exports = app;

@@ -1,11 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const middlewares = require("./middlewares");
+const ReadingList = require("../models/ReadingList");
 
 router.get("/books", (req, res, next) => {
 	res.render("./dashboard/books", {});
 });
 
 router.get("/dashboard", (req, res, next) => {
+	/* let currentUserID = req.user._id; */
+
+	/* ReadingList.find(currentUserID).then((userReadingList) => {
+		console.log(userReadingList);
+	}); */
+
 	let completedBooks = { name: "ExampleNameCompleted", path: "ExamplePathCompleted" };
 	let currentBooks = { name: "ExampleNameCurrent", path: "ExamplePathCurrent" };
 	let wishListBooks = { name: "ExampleNameWishList", path: "ExamplePathWishList" };
