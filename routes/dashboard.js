@@ -3,9 +3,9 @@ const router = express.Router();
 const middlewares = require("./middlewares");
 const ReadingList = require("../models/ReadingList");
 
-router.get("/books", (req, res, next) => {
+/* router.get("/books", (req, res, next) => {
 	res.render("./dashboard/books", {});
-});
+}); */
 
 router.get("/dashboard", (req, res, next) => {
 	/* let currentUserID = req.user._id; */

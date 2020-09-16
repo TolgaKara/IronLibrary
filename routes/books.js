@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const middlewares = require("./middlewares");
 const Book = require("../models/Book");
+const { uploader, cloudinary } = require("../config/cloudinary.config");
 
 const Author = require("../models/Author");
 
@@ -35,15 +36,19 @@ router.get("/books/:bookId", (req, res) => {
 		});
 });
 
-router.post("/books", (req, res) => {
-	// const title = req.body.title;
-	// const author = req.body.author;
-	// const description = req.body.description;
-	// const rating = req.body.rating;
+router.post("/books", uploader.single("image"), (req, res) => {
+	const imgName = req.file.originalname;
+	const imgPath = req.file.url;
+	const imgPublicId = req.file.public_id;
+
 	const { title, author, description, rating } = req.body;
+
 	Book.create({
 		title: title,
 		author: author,
+		imgName,
+		imgPath,
+		imgPublicId,
 		description: description,
 		rating: rating,
 	})

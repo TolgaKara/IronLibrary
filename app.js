@@ -29,6 +29,27 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// session configuration
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		cookie: { maxAge: 24 * 60 * 60 * 1000 },
+		saveUninitialized: false,
+		resave: true,
+		store: new MongoStore({
+			// when the session cookie has an expiration date
+			// connect-mongo will use it, otherwise it will create a new
+			// one and use ttl - time to live - in that case one day
+			mongooseConnection: mongoose.connection,
+			ttl: 24 * 60 * 60 * 1000,
+		}),
+	})
+);
+// End of Session config
+
 // Express View engine setup
 
 const User = require("./models/User");
@@ -152,7 +173,7 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 /* hbs.registerPartial("./views/dashboard/navbar.hbs"); */
 
 // default value for title local
-app.locals.title = "Express - Generated with IronGenerator";
+app.locals.title = "IronLibrary - Feel free to Share Books";
 
 const index = require("./routes/index");
 app.use("/", index);
