@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+router.get("/books", (req, res, next) => {
+	res.render("./dashboard/books", {});
+});
+
 router.get("/dashboard", (req, res, next) => {
 	let completedBooks = { name: "ExampleNameCompleted", path: "ExamplePathCompleted" };
 	let currentBooks = { name: "ExampleNameCurrent", path: "ExamplePathCurrent" };
