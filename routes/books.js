@@ -5,6 +5,7 @@ const Book = require("../models/Book");
 const { uploader, cloudinary } = require("../config/cloudinary.config");
 
 const Author = require("../models/Author");
+const ReadingList = require("../models/ReadingList");
 
 router.get("/books", (req, res) => {
 	// get all the books
@@ -12,7 +13,7 @@ router.get("/books", (req, res) => {
 		console.log(booksFromDB);
 		// render a view and pass in the books
 		// console.log(booksFromDB);
-		res.render("books", { booksList: booksFromDB });
+		res.render("books", { booksList: booksFromDB, currentUser: req.user });
 	});
 });
 
@@ -28,18 +29,30 @@ router.get("/books/add", (req, res, next) => {
 
 router.get("/books/:bookId", (req, res) => {
 	const id = req.params.bookId;
+
 	Book.findById(id)
 		.populate("author")
 		.then((bookFromDB) => {
+			let isUserBook = "" + bookFromDB.userId == "" + req.user._id;
+			console.log(isUserBook);
 			console.log(bookFromDB);
-			res.render("bookDetails", { book: bookFromDB });
+			res.render("bookDetails", { book: bookFromDB, isUserBook });
 		});
 });
 
 router.post("/books", uploader.single("image"), (req, res) => {
-	const imgName = req.file.originalname;
-	const imgPath = req.file.url;
-	const imgPublicId = req.file.public_id;
+	let imgName;
+	let imgPath;
+	let imgPublicId;
+	if (req.file !== undefined) {
+		imgName = req.file.originalname;
+		imgPath = req.file.url;
+		imgPublicId = req.file.public_id;
+	} else {
+		imgName = "Default Image";
+		imgPath = "";
+		imgPublicId = "";
+	}
 
 	const { title, author, description, rating } = req.body;
 
@@ -51,6 +64,7 @@ router.post("/books", uploader.single("image"), (req, res) => {
 		imgPublicId,
 		description: description,
 		rating: rating,
+		userId: req.user._id,
 	})
 		.then((book) => {
 			console.log(`New book was created: ${book}`);
@@ -124,5 +138,24 @@ router.post("/books/:bookId/reviews", (req, res, next) => {
 			next(error);
 		});
 });
+
+router.get("/add/completed/:id", (req, res, next) => {
+	const bookId = req.params.id;
+	const bookName = Book.findById(bookId).then((buch) => buch.title);
+	console.log(bookName);
+	const userId = req.user._id;
+	ReadingList.findOneAndUpdate(
+		{ userId: userId },
+		{ $push: { completedBooks: { id: bookId, name: bookName } } }
+	)
+		.then((list) => {
+			res.redirect("/dashboard");
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+router.get("/add/reading/:id", (req, res, next) => {});
+router.get("/add/wishlist/:id", (req, res, next) => {});
 
 module.exports = router;

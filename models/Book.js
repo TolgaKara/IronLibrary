@@ -26,6 +26,10 @@ const bookSchema = new Schema({
 		},
 	],
 	rating: Number,
+	userId: {
+		type: Schema.Types.ObjectId,
+		ref: "User",
+	},
 });
 
 const Book = mongoose.model("Book", bookSchema);

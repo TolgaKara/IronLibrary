@@ -8,6 +8,10 @@ const ReadingList = require("../models/ReadingList");
 }); */
 
 router.get("/dashboard", (req, res, next) => {
+	ReadingList.create({ userId: req.user._id }, function (err, small) {
+		if (err) return handleError(err);
+	});
+
 	/* let currentUserID = req.user._id; */
 
 	/* ReadingList.find(currentUserID).then((userReadingList) => {
@@ -28,6 +32,7 @@ router.get("/dashboard", (req, res, next) => {
 		completedLength,
 		currentLength,
 		wishListLength,
+		currentUser: req.user,
 	});
 });
 

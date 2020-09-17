@@ -16,7 +16,7 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{currentUser.name}}Profile
+          {{currentUser.name}} Profil
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Profile</a>
@@ -33,9 +33,28 @@
 <div class="container">
 <h1>Books</h1>
 {{#each booksList}}
-<p>
-  <a href="/books/{{_id}}">{{ title }}</a>
-</p>
+  <div class="row">
+    <div class="col-sm">
+      <p>
+        <a href="/books/{{_id}}" class="list-group-item list-group-item-action list-group-item-info">{{ title }}</a>
+    </p>
+    </div>
+    <div class="col-sm">
+
+  <div class="row mt-2">
+    <div class="col-sm">
+      <a href="/add/completed/{{_id}}" class="btn btn-success">+ Add completed</a>
+    </div>
+    <div class="col-sm">
+      <a href="/add/reading/{{_id}}" class="btn btn-warning">+ Add reading</a>
+    </div>
+    <div class="col-sm">
+      <a href="/add/wishlist/{{_id}}" class="btn btn-primary">+ Add wishlist</a>
+    </div>
+</div>
+    </div>
+  </div>
 {{/each}}
-<a href="/books/add" class="text-success font-weight-bold">+ Add a book</a>
+<hr>
+<a href="/books/add" class="text-center text-success font-weight-bold">+ Add a new book</a>
 </div>

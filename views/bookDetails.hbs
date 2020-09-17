@@ -1,18 +1,22 @@
-{{#with book}}
+
 
 <div class="ml-5 mt-5">
 
-<img src="{{imgPath}}" alt="{{imgName}}" srcset="">
-<h1>{{title}}</h1>
+<img src="{{book.imgPath}}" alt="{{book.imgName}}" srcset="">
+<h1>{{book.title}}</h1>
 
-<p>Summary: {{description}}</p>
-<p>Rating: {{rating}}</p>
-<a href="/books/edit/{{_id}}">Edit this book</a>
+<p>Summary: {{book.description}}</p>
+<p>Rating: {{book.rating}}</p>
 
-<a href="/books/delete/{{_id}}" class="ml-5">Delete this book</a>
+{{#if isUserBook}}
+<a href="/books/edit/{{book._id}}">Edit this book</a>
 
+<a href="/books/delete/{{book._id}}" class="ml-5">Delete this book</a>
 
 <a href="/books" class="ml-5">Back to the Books</a>
-</div>
 
-{{/with}}
+{{else}}
+  <a href="/books">Back to the Books</a>
+{{/if}}
+
+</div>
