@@ -4,6 +4,43 @@ body {
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-	color: #00b7ff;
+.p1 {
+	color: rgb(161, 206, 218);
+	//color: #00b7ff;
 }
+
+footer {
+	width: 100%;
+	background-color: #222;
+	padding: 2px 0px;
+}
+
+.text {
+	color: wheat;
+	list-style: none;
+	display:flex;
+	justify-content: space-evenly;
+}
+
+//.justify {
+	
+//	list-style: none;
+// 	display:flex;
+// 	justify-content: space-between;
+// }
+
+
+
+
+footer nav ul {
+	margin-top: 23px;
+}
+
+footer nav ul li a {
+		font-family: Lato;
+		font-weight: 400;
+		font-size: 10px;
+		color: wheat;
+}
+
+
