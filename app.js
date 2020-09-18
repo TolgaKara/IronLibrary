@@ -100,7 +100,7 @@ passport.use(
 		{
 			clientID: process.env.GITHUB_ID,
 			clientSecret: process.env.GITHUB_SECRET,
-			callbackURL: "http://127.0.0.1:3000/auth/github/callback",
+			callbackURL: "https://ironlibrary-v1.herokuapp.com/auth/github/callback",
 		},
 		(accessToken, refreshToken, profile, done) => {
 			// find a user with profile.id as githubId or create one
@@ -133,7 +133,7 @@ passport.use(
 		{
 			clientID: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:3000/google/callback",
+			callbackURL: "https://ironlibrary-v1.herokuapp.com/google/callback",
 		},
 		function (accessToken, refreshToken, profile, done) {
 			User.findOne({ googleId: profile.id })
